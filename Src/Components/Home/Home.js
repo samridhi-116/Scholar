@@ -1,5 +1,5 @@
-import Banner from "./Home/Banner";
-import Text from "./Home/Text";
+import Banner from "./Banner";
+import Text from "./Text";
 
 const Home = () => {
     return(

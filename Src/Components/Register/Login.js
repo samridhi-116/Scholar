@@ -1,8 +1,8 @@
 import React, {useState, useContext} from 'react';
 import { useFormik } from 'formik';
-import { FormValidation } from './FormValidate';
+import { FormValidation } from '../Register/FormValidate';
 import { Link, useNavigate} from 'react-router-dom';
-import UserContext from '../utils/userContext';
+import UserContext from '../../utils/userContext';
 
 const Login = () =>{
     const [loginError, setLoginError] = useState(false);
@@ -49,7 +49,7 @@ const Login = () =>{
     return(
         <div className='w-4/12 mx-auto mt-4 bg-indigo-600 rounded-md'>
             <form onSubmit={handleSubmit} className=' py-8 w-4/5 mx-auto'>    
-            <p className='text-3xl font-sans font-bold text-white leading-relaxed tracking-wide'>Welcome Back!</p> 
+            <p className='text-3xl font-sans font-bold text-orange-400 leading-relaxed tracking-wide'>Welcome Back!</p> 
             <p className='text-xs font-sans font-normal text-white leading-relaxed tracking-wide'>Please Login to your account</p>    
             <br/>  
             <div className='relative mb-3'>
@@ -80,16 +80,17 @@ const Login = () =>{
                 <label htmlFor="password" 
                 className='pointer-events-none absolute left-0 top-0 origin-[0_0] border border-solid border-transparent px-3 py-4 text-neutral-500 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary'>Password</label> 
 
-                {touched.password && errors.password ? ( <p className='text-orange-400 font-semibold text-base font-sans'>{errors.password}</p> ) : null}
+                {touched.password && errors.password ? ( 
+                <p className='text-orange-400 font-semibold text-base font-sans'>{errors.password}</p> ) : null}
             </div>
             <div className='flex flex-row justify-between items-center'>
                 <p className='text-white text-xs font-sans'>New here?<Link to="/signup"> Sign up</Link></p>
                 <p className='text-white text-xs font-sans'><Link>Forgot Password?</Link></p>
             </div>
-
-            <button type="submit" className='border-solid border border-white rounded-sm font-sans text-sm font-semibold py-2 px-4 text-black bg-white text-center mt-4 w-1/3'>Login</button>
-            {/* <div className='flex flex-row justify-center'>
-            </div> */}
+            <div className='flex flex-row justify-center'>
+              <button type="submit" 
+              className='border-solid border border-orange-600 rounded-sm font-sans text-sm font-semibold py-2 px-4 text-white bg-orange-600 text-center mt-4 w-1/3'>Login</button>
+            </div>
             </form>
         </div>
 ); 

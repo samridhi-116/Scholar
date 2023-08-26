@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { FormValidation } from './FormValidate';
+import { FormValidation } from '../Register/FormValidate';
 import { Link } from 'react-router-dom';
 
 const Signup = () =>{

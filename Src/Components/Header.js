@@ -1,9 +1,10 @@
-import { useState} from "react";
+import { useState, useContext} from "react";
 import Logo from "../Assets/Logo.png";
 import { Link } from "react-router-dom";
+import UserContext from "../utils/userContext";
 
 const Header = () => {
-
+    const { user } = useContext(UserContext);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     return(
@@ -16,7 +17,7 @@ const Header = () => {
                     <p><Link>What we do</Link></p>
                     {
                         isLoggedIn ? 
-                            <p>User</p>
+                            <p>{user?.name}</p>
                         : 
                         <Link to='/login'>
                             <button className="border-solid border border-white rounded-sm font-sans text-sm py-1 px-2 text-black bg-white text-center" onClick={()=>{

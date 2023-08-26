@@ -1,15 +1,19 @@
 import React, { Fragment, useState} from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import Home from "./Components/Home";
+import Home from "./Components/Home/Home";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import Login from "./Components/Login";
-import Signup from "./Components/Signup";
-import JobSeeker from "./Components/JobSeeker";
-import JobCreator from "./Components/JobCreator";
+import Login from "./Components/Register/Login";
+import Signup from "./Components/Register/Signup";
+import JobSeeker from "./Components/Seeker/JobSeeker";
+import JobCreator from "./Components/Creator/JobCreator";
 import UserContext from "./utils/userContext";
-import CreateJob from "./Components/CreateJob";
+import CreateJob from "./Components/Creator/CreateJob";
+import UpdateJob from "./Components/Creator/UpdateJob";
+import AllJobs from "./Components/Seeker/AllJobs";
+import AppliedJobs from "./Components/Seeker/AppliedJobs";
+import JobCategory from "./Components/Seeker/JobCategory";
 
 const AppLayout = () => {
 
@@ -60,7 +64,21 @@ const AppRouter = createBrowserRouter([
             },
             {
                 path: '/job-seeker',
-                element: <JobSeeker/>
+                element: <JobSeeker/>,
+                children:[
+                    {
+                        path: ':/all-jobs',
+                        element: <AllJobs/>
+                    },
+                    {
+                        path: ':/applied-jobs',
+                        element: <AppliedJobs/>
+                    },
+                    {
+                        path: ':/job-category',
+                        element: <JobCategory/>
+                    }
+                ]
             },
             {
                 path: '/job-creator',
@@ -70,10 +88,13 @@ const AppRouter = createBrowserRouter([
                 path: '/create-job',
                 element: <CreateJob/>
             },
+            {
+                path: '/update-job',
+                element: <UpdateJob/>
+            },
         ]
     }
 ])
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={AppRouter} />);
