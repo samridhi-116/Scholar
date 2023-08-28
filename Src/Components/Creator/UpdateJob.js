@@ -1,45 +1,38 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext } from 'react';
 import { useFormik } from 'formik';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import updateJobContext from '../../utils/updateJobContext';
 
 const UpdateJob = () => {
+    const navigate = useNavigate();
+    const {updateJob} = useContext(updateJobContext);
     const { id } = useParams();
     const [jobDetails, setJobDetails] = useState({
-        job_name: '',
-        job_description: '',
-        job_payment_cycle: '',
-        job_amount: '',
-        job_category_id: '',
-        is_active: ''
+        job_name: updateJob?.job_name,
+        job_description: updateJob?.job_description,
+        job_payment_cycle: updateJob?.job_payment_cycle,
+        job_amount: updateJob?.job_amount,
+        job_category_id: updateJob?.job_category_id,
+        is_active: updateJob?.is_active
     });
     useEffect(() => {
         const fetchJobDetails = async () => {
             try {
                 const response = await fetch(`http://scholarshiftapi.divasdoor.com/api/updateJob?id=${id}`);
                 const data = await response.json();
-                setJobDetails(data);
+                setJobDetails(data); //gives error
             } catch (error) {
                 console.error('Error fetching job details:', error);
             }
         };
         fetchJobDetails();
-      }, [id]);
+      }, []);
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit: formikSubmit } = useFormik({
         initialValues: jobDetails,
-        validationSchema: "",
         onSubmit: async (values) => {
             try {
-                const queryParams = new URLSearchParams({
-                    id: id,
-                    job_name: values.job_name,
-                    job_description: values.job_description,
-                    job_payment_cycle: values.job_payment_cycle,
-                    job_amount: values.job_amount,
-                    // Include other fields here
-                });
-
-                const apiUrl = `http://scholarshiftapi.divasdoor.com/api/updateJob?${queryParams}`;
+                const apiUrl = `http://scholarshiftapi.divasdoor.com/api/updateJob?id=${updateJob.id}`;
                 const token = localStorage.getItem('token');
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -47,15 +40,20 @@ const UpdateJob = () => {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
-                    // No need for a request body in this case
+                    body: JSON.stringify({
+                        id: id,
+                        job_name: values.job_name,
+                        job_description: values.job_description,
+                        job_payment_cycle: values.job_payment_cycle,
+                        job_amount: values.job_amount
+                    })
                 });
-
                 const responseData = await response.json();
                 console.log(responseData);
-                // Handle success or display an appropriate message
             } catch (error) {
                 console.error('Error updating job:', error);
             }
+            navigate('/job-creator');
         },
     });
   return (
@@ -73,7 +71,7 @@ const UpdateJob = () => {
                     placeholder='Job Title'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values?.job_name}
+                    value={values.job_name}
                 />
                 <label 
                     htmlFor="job_name" 
@@ -93,7 +91,7 @@ const UpdateJob = () => {
                     placeholder='Job Description'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values?.job_description}
+                    value={values.job_description}
                 />
                 <label 
                     htmlFor="job_description" 
@@ -112,7 +110,7 @@ const UpdateJob = () => {
                     placeholder='Job Payment Cycle'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values?.job_payment_cycle}
+                    value={values.job_payment_cycle}
                 />
                 <label 
                     htmlFor="job_payment_cycle" 
@@ -132,7 +130,7 @@ const UpdateJob = () => {
                     placeholder='Job Amount'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values?.job_amount}
+                    value={values.job_amount}
                 />
                 <label 
                     htmlFor="job_amount" 
@@ -152,7 +150,7 @@ const UpdateJob = () => {
                     placeholder='Job Category Id'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values?.job_category_id}
+                    value={values.job_category_id}
                 />
                 <label 
                     htmlFor="job_category_id" 
@@ -172,7 +170,7 @@ const UpdateJob = () => {
                     placeholder='Is Job Active'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values?.is_active}
+                    value={values.is_active}
                 />
                 <label 
                     htmlFor="is_active" 
@@ -186,6 +184,8 @@ const UpdateJob = () => {
             <div className='flex flex-row justify-center'>
                 <button type="submit" className='border-solid border border-orange-400 rounded-sm font-sans text-sm font-semibold py-2 px-4 text-white bg-orange-400 text-center mt-4 w-1/3'>Update Job</button>
             </div>
+
+           
             </form>
     </div>
     

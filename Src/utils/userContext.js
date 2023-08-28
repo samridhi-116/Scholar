@@ -7,7 +7,7 @@ const UserContext = createContext({
         email: null,
         user_type: null,
         email_verified_at: null
-      }
+    }
 });
 
 export default UserContext;

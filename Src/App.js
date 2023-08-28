@@ -9,16 +9,18 @@ import Signup from "./Components/Register/Signup";
 import JobSeeker from "./Components/Seeker/JobSeeker";
 import JobCreator from "./Components/Creator/JobCreator";
 import UserContext from "./utils/userContext";
+import updateJobContext from "./utils/updateJobContext";
 import CreateJob from "./Components/Creator/CreateJob";
 import UpdateJob from "./Components/Creator/UpdateJob";
 import AllJobs from "./Components/Seeker/AllJobs";
 import AppliedJobs from "./Components/Seeker/AppliedJobs";
 import JobCategory from "./Components/Seeker/JobCategory";
+import JobByCategory from "./Components/Seeker/JobByCategory";
 
 const AppLayout = () => {
 
     const [user, setUser] = useState(null);
-    console.log(user);
+    const [updateJob, setUpdateJob] = useState(null);
 
     return(
         <Fragment>
@@ -28,9 +30,17 @@ const AppLayout = () => {
                     setUser:setUser
                 }
             }>
+            <updateJobContext.Provider value={
+                {   updateJob:updateJob,
+                    setUpdateJob: setUpdateJob
+                }
+
+            }>
                 <Header/> 
                 <Outlet/>
                 <Footer/> 
+            </updateJobContext.Provider>
+                
             </UserContext.Provider>
         </Fragment>
     )
@@ -67,17 +77,24 @@ const AppRouter = createBrowserRouter([
                 element: <JobSeeker/>,
                 children:[
                     {
-                        path: ':/all-jobs',
+                        path: 'all-jobs',
                         element: <AllJobs/>
                     },
                     {
-                        path: ':/applied-jobs',
+                        path: 'applied-jobs',
                         element: <AppliedJobs/>
                     },
                     {
-                        path: ':/job-category',
-                        element: <JobCategory/>
-                    }
+                        path: 'job-category',
+                        element: <JobCategory/>,
+                        children: [
+                            {
+                                path: 'jobsbycategory/:id',
+                                element: <JobByCategory/>
+                            }
+                        ]
+                    },
+                    
                 ]
             },
             {

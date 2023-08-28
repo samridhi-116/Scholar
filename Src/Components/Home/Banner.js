@@ -9,9 +9,8 @@ import banner from "../../Assets/banner.png"
 
 const Banner = () => {
     const [searchText, setSearchText] = useState("");
-
     return(
-        <div className=" bg-indigo-600 w-full pt-8">
+        <div className=" bg-indigo-600 w-full pt-9">
             <div className=" ml-20 flex flex-row justify-between ">
                 <div className=" w-[45%] pt-12">
                     <p className="text-md font-sans font-bold text-gray-300 leading-relaxed">Welcome to</p>
@@ -64,12 +63,10 @@ const Banner = () => {
                             <p className="text-xs font-sans font-normal text-white leading-relaxed uppercase mt-2">Odd Jobs</p>
                         </Link>
                     </div> 
-                </div>
-                
+                </div>       
                 <div className="w-[43%]">
                     <img src={banner}/>
                 </div>
-
             </div>
         </div>
     )
