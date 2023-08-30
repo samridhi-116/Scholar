@@ -1,9 +1,11 @@
-import React, {useContext, useState, useEffect} from 'react';
-import UserContext from '../../utils/userContext';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
+import {useSelector} from "react-redux";
 import JobDisplay from './JobDisplay';
 
 const JobCreator = () => {
+  const user = useSelector(state => state.user.user);
+
   const [jobs, setJobs] = useState([]);
   useEffect(() => {
     const fetchJobs = async () => {
@@ -24,8 +26,6 @@ const JobCreator = () => {
     };
     fetchJobs();
   }, []);
-
-  const { user } = useContext(UserContext);
 
   return (
     <div className='mt-6 w-4/5 mx-auto'>

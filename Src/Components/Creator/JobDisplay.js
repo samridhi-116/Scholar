@@ -1,9 +1,11 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
-import updateJobContext from '../../utils/updateJobContext';
+import { useDispatch } from 'react-redux';
+import { updateJob } from '../../utils/jobUpdateSlice';
 
 const JobDisplay = ({ job }) => {
-  const { updateJob, setUpdateJob } = useContext(updateJobContext);
+
+  const dispatch = useDispatch();
 
   return (
     <div className=' w-[23%] border-solid border border-gray-600 p-4 my-4 mr-5'>
@@ -14,9 +16,8 @@ const JobDisplay = ({ job }) => {
       
       <Link to="/update-job">
         <button onClick={()=>{
-          setUpdateJob(job);
+          dispatch(updateJob(job))
         }}
-
         className='border-solid border-2 border-orange-400 rounded-sm font-sans text-xs font-semibold bg-orange-400 py-2 px-4 text-white text-center hover:bg-transparent hover:text-orange-500 mt-2'>Update Job</button>
       </Link>
     </div>

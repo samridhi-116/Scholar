@@ -1,14 +1,18 @@
-import React, {useState, useContext} from 'react';
+import React, {useState } from 'react';
 import { useFormik } from 'formik';
 import { FormValidation } from '../Register/FormValidate';
 import { Link, useNavigate} from 'react-router-dom';
-import UserContext from '../../utils/userContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../utils/userSlice';
 
 const Login = () =>{
     const [loginError, setLoginError] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const { user, setUser } = useContext(UserContext);
+    const user = useSelector(state => state.user.user);
+    console.log(user);
+
     const { values, errors, touched, handleChange, handleBlur, handleSubmit} = useFormik({
         initialValues: {
           email: '',
@@ -29,9 +33,9 @@ const Login = () =>{
                 const responseData = await response.json();
                 const token = responseData.token;
                 localStorage.setItem('token', token);
-                setUser(responseData.data);
-                console.log(setUser);
-                // Redirect to dashboard based on user type
+                dispatch(login(responseData.data));
+
+
                 if (responseData.data.user_type === 1) {
                     navigate('/job-seeker');
                 } else if (responseData.data.user_type === 2) {

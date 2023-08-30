@@ -1,9 +1,9 @@
-import React, {useContext} from 'react';
-import UserContext from '../../utils/userContext';
+import React from 'react';
+import {useSelector} from "react-redux";
 
 const JobCard = ({job}) => {
+    const user = useSelector(state => state.user.user);
     const { job_name, job_description, job_amount, id, job_payment_cycle } = job;
-    const { user } = useContext(UserContext);
     const ApplyJob = async(job_id)=>{
         const data={
             'job_id':job_id,

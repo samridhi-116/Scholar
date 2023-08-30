@@ -1,9 +1,9 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import UserContext from '../../utils/userContext';
+import {useSelector} from "react-redux";
 
 const JobSeeker = () => {
-  const { user } = useContext(UserContext);
+  const user = useSelector(state => state.user.user);
 
   return (
     <div className='flex flex-row'>

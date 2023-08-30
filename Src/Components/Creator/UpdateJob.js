@@ -1,38 +1,28 @@
-import React, {useState, useEffect, useContext } from 'react';
+import React, {useState} from 'react';
 import { useFormik } from 'formik';
-import { useParams, useNavigate } from 'react-router-dom';
-import updateJobContext from '../../utils/updateJobContext';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const UpdateJob = () => {
     const navigate = useNavigate();
-    const {updateJob} = useContext(updateJobContext);
-    const { id } = useParams();
+    const job = useSelector(state => state.jobs.jobs)
+    console.log(job);
+
     const [jobDetails, setJobDetails] = useState({
-        job_name: updateJob?.job_name,
-        job_description: updateJob?.job_description,
-        job_payment_cycle: updateJob?.job_payment_cycle,
-        job_amount: updateJob?.job_amount,
-        job_category_id: updateJob?.job_category_id,
-        is_active: updateJob?.is_active
+        job_name: job?.job_name,
+        job_description: job?.job_description,
+        job_payment_cycle: job?.job_payment_cycle,
+        job_amount: job?.job_amount,
+        job_category_id: job?.job_category_id,
+        is_active: job?.is_active
     });
-    useEffect(() => {
-        const fetchJobDetails = async () => {
-            try {
-                const response = await fetch(`http://scholarshiftapi.divasdoor.com/api/updateJob?id=${id}`);
-                const data = await response.json();
-                setJobDetails(data); //gives error
-            } catch (error) {
-                console.error('Error fetching job details:', error);
-            }
-        };
-        fetchJobDetails();
-      }, []);
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit: formikSubmit } = useFormik({
         initialValues: jobDetails,
         onSubmit: async (values) => {
             try {
-                const apiUrl = `http://scholarshiftapi.divasdoor.com/api/updateJob?id=${updateJob.id}`;
+                const apiUrl = `http://scholarshiftapi.divasdoor.com/api/updateJob?id=${job.id}`;
+                console.log(apiUrl);
                 const token = localStorage.getItem('token');
                 const response = await fetch(apiUrl, {
                     method: 'POST',
@@ -41,7 +31,7 @@ const UpdateJob = () => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        id: id,
+                        id: job.id,
                         job_name: values.job_name,
                         job_description: values.job_description,
                         job_payment_cycle: values.job_payment_cycle,

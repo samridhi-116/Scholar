@@ -1,11 +1,11 @@
-import { useState, useContext} from "react";
 import Logo from "../Assets/Logo.png";
 import { Link } from "react-router-dom";
-import UserContext from "../utils/userContext";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout } from "../utils/userSlice";
 
 const Header = () => {
-    const { user } = useContext(UserContext);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user.user);
 
     return(
         <div className=" bg-indigo-600">
@@ -16,12 +16,16 @@ const Header = () => {
                     <p><Link>Browse Jobs</Link></p>
                     <p><Link>What we do</Link></p>
                     {
-                        isLoggedIn ? 
-                            <p>{user?.name}</p>
+                        user ? 
+                            <button onClick={()=>{
+                                dispatch(logout());
+                            }}>
+                                {user?.name}
+                            </button>
                         : 
                         <Link to='/login'>
                             <button className="border-solid border border-white rounded-sm font-sans text-sm py-1 px-2 text-black bg-white text-center" onClick={()=>{
-                            setIsLoggedIn(true);
+                                dispatch(login());
                             }}>Log in
                             </button>
                         </Link>
